@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <div class="threads">
+            <div class="col-md-6 col-md-offset-3">
+                <% if user_signed_in? %>
+                    <div><%= link_to 'Buat Diskusi', new_forum_thread_path, class: 'btn btn-primary form-control mb-5' %></div>              
+                <% end %>
+                <% @threads.each do |t|%>
+                    <div class="thread-title">
+                        <h4><%= link_to t.title.titleize, forum_thread_path(t) %>
+                        <% if t.sticky? %>
+                            <i class="bi bi-pin-angle-fill"></i>
+                        <% end %>
+                        </h4>
+                        <div class="meta">
+                            <%= I18n.l(t.created_at.to_date) %> oleh <%= t.user.name %>
+                        </div>
+                        <div class="content">
+                            <%= truncate t.content, length: 150 %>
+                            <%# Truncate digunakan untuk membuat tampilan konten tidak banyak%>
+                        </div>
+                        <div class="action">
+                            <%= link_to 'Pin it !', pin_it_forum_thread_path(t), class: "btn btn-primary mb-2", method: :put %>
+                        </div>
+                        <div class="count">
+                            <%= t.forum_posts_count %> Obrolan
+                        </div>
+                    </div>
+                <% end %>
+                <%= will_paginate @threads, renderer: BootstrapPagination::Rails%>
+            </div>
+
+        </div>
+    </div>
+</div>
+

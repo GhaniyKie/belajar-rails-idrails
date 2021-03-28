@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="row">
+        <div class="threads">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="thread-title">
+                    <h4><%= @thread.title.titleize %></h4>
+                    <div class="meta">
+                        <%= I18n.l(@thread.created_at.to_date) %> oleh <%= @thread.user.name %>
+                    </div>
+                    <div class="content">
+                        <%= @thread.content %>
+                    </div>
+                    <%# Kondisional jika yang login adalah si pembuat Thread %>
+                    <% if policy(@thread).edit? %>
+                    <div class="action">
+                        <%= link_to 'Edit', edit_forum_thread_path(@thread), class: "btn btn-primary mb-2" %>
+                        <%= link_to 'Delete',  forum_thread_path(@thread), method: :delete, data: {confirm: "Yakin diapus ?"}, class: "btn btn-primary mb-2" %>
+                    </div>
+                    <% end %>
+
+                </div>
+
+                <% if @thread.forum_posts.any? %>
+                <% @thread.forum_posts.each do |post| %>
+                <div class="thread-title">
+                    <div class="meta">
+                        <%= I18n.l(post.created_at.to_date) %> oleh <%= post.user.name %>
+                    </div>
+                    <div class="content">
+                        <%= post.content %>
+                    </div>
+                </div>
+                <% end %>
+                <% else %>
+                <div>
+                    <p>Jadilah yang pertama mempost disini</p>
+                </div>
+                <% end %>
+
+                <% if @post.errors.any? %>
+                    <div class='alert alert-danger alert-dismissible'>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <% @post.errors.full_messages.each do |error| %>
+                        <span> <%= error %> </span><br />
+                        <% end %>
+                    </div>
+                <% end %>
+
+                <% if user_signed_in? %>
+                    <%# Karena akan menggunakan Nested Resouce %>
+                    <%# Maka, pada url form_for menggunakan Array %>
+                    <%= form_for [@thread, @post] do |f| %>
+                    <div class="form-group">
+                        <%= f.label :content %>
+                        <%= f.text_area :content, rows: 10, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                        <%= f.submit "Buat", class: 'btn btn-primary form-control' %>
+                    </div>
+                <% end %>
+
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
