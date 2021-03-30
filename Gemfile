@@ -66,3 +66,7 @@ gem 'friendly_id'
 # Gem Pagination
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
+
+group :production do 
+  gem 'tunemygc'
+end
