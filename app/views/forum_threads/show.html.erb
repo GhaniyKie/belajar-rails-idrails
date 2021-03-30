@@ -10,7 +10,7 @@
                     <div class="content">
                         <%= @thread.content %>
                     </div>
-                    <%# Kondisional jika yang login adalah si pembuat Thread %>
+                    <%# Kondisional jika yang login adalah si pembuat Thread keluar tombol edit samaa delete %>
                     <% if policy(@thread).edit? %>
                     <div class="action">
                         <%= link_to 'Edit', edit_forum_thread_path(@thread), class: "btn btn-primary mb-2" %>
